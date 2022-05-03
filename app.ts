@@ -98,7 +98,7 @@ app.get("/", (req: Request, res: Response): Response => {
 //     await Dog.destroy({ where: { id } });
 //     return res.status(200).json(deletedDog);
 // }
-// );
+// )
 
 const start = async (): Promise<void> => {
     try {
