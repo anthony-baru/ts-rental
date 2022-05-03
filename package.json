@@ -2,10 +2,11 @@
   "name": "ts-sequelize",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "type": "module",
+  "main": "dist/app.js",
   "scripts": {
-    "start": "ts-node-dev app.ts"
+    "start": "ts-node server.ts",
+    "dev": "ts-node-dev server.ts"
   },
   "keywords": [],
   "author": "",

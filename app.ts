@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import express, { Request, Response } from "express";
-import connection from "./config/connection";
 
 import carRentalVendorRoutes from "./routes/carRentalVendor.routes";
 import carRentalRoutes from "./routes/carRental.routes";
@@ -8,8 +7,8 @@ import carRentalRoutes from "./routes/carRental.routes";
 import 'dotenv/config';
 require('dotenv').config();
 
-console.log(process.env.DB_DIALECT);
-const PORT = parseInt(process.env.PORT!) || 3000;
+
+
 const app = express();
 
 app.use(express.json());
@@ -100,19 +99,4 @@ app.get("/", (req: Request, res: Response): Response => {
 // }
 // )
 
-const start = async (): Promise<void> => {
-    try {
-        await connection.sync();
-
-        console.log(connection.models);
-
-        app.listen(PORT, () => {
-            console.log(`Server started on port ${PORT}`);
-        });
-    } catch (error) {
-        console.error("LOADING_ERROR", error);
-        process.exit(1);
-    }
-};
-
-void start();
+export default app;
