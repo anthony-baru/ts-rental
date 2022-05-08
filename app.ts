@@ -5,6 +5,8 @@ import carRentalVendorRoutes from "./routes/carRentalVendor.routes";
 import carRentalRoutes from "./routes/carRental.routes";
 
 import 'dotenv/config';
+import { CognitoService } from "./services/cognito.service";
+import { init } from "./workers/carRentalVendor.worker";
 require('dotenv').config();
 
 
@@ -17,9 +19,17 @@ app.use("/car-rental-vendor", carRentalVendorRoutes);
 app.use("/car-rental", carRentalRoutes);
 
 app.get("/", (req: Request, res: Response): Response => {
-    return res.json({ message: "Sequelize Example 🤟" });
+    return res.json({ message: "Car Rental Home 🤟" });
 });
 
+app.get("/users", async (req: Request, res: Response): Promise<Response> => {
+
+    return res.send({ data: await new CognitoService().listUsers() });
+});
+app.get("/users-group/:groupName", async (req: Request, res: Response): Promise<Response> => {
+
+    return res.send({ data: await new CognitoService().listUsersInGroup(req.params.groupName) });
+});
 // //owners and dogs
 // app.get("/owners/dogs", async (req: Request, res: Response): Promise<Response> => {
 //     const allOwnersDogs: Owner[] = await Owner.findAll({ include: [Dog] });
@@ -98,5 +108,6 @@ app.get("/", (req: Request, res: Response): Response => {
 //     return res.status(200).json(deletedDog);
 // }
 // )
+
 
 export default app;

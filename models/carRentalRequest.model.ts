@@ -9,6 +9,8 @@ export interface ICarRentalRequest {
     clientVehicleMake?: string;
     clientVehicleModel?: string;
     status: RequestStatus;
+    requestStartDate?: Date;
+    requestEndDate?: Date;
     policyNumber: string;
     policyStartDate: Date;
     policyEndDate: Date;
@@ -77,6 +79,18 @@ export class CarRentalRequest extends Model<ICarRentalRequest> {
         allowNull: false,
     })
     status: RequestStatus = RequestStatus.UNDEFINED;
+
+    @Column({
+        type: DataType.DATE,
+        allowNull: false,
+    })
+    requestStartDate?: Date;
+
+    @Column({
+        type: DataType.DATE,
+        allowNull: false,
+    })
+    requestEndDate?: Date;
 
     @Column({
         type: DataType.STRING,
