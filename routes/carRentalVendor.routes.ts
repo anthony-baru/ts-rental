@@ -1,10 +1,10 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
 import carRentalVendorController from "../controller/carRentalVendor.controller";
-const carRentalVendorRoutes = Router()
-carRentalVendorRoutes.get("/", (req: Request, res: Response): Response => {
-    return res.json({ message: "Hi from car rental routes 👍👍👍👍 " });
-});
+const carRentalVendorRoutes = Router();
+carRentalVendorRoutes.get("/", carRentalVendorController.getVendors);
 
-carRentalVendorRoutes.post("/vehicle", carRentalVendorController.createVehicle)
+carRentalVendorRoutes.get("/:userName", carRentalVendorController.getVendor);
 
-export default carRentalVendorRoutes
+carRentalVendorRoutes.post("/vehicles", carRentalVendorController.createVehicle);
+
+export default carRentalVendorRoutes;

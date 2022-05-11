@@ -9,6 +9,10 @@ export interface ICarRentalRequest {
     clientVehicleMake?: string;
     clientVehicleModel?: string;
     status: RequestStatus;
+    deliveryDate: Date;
+    deliveryLocationLongitude: number;
+    deliveryLocationLatitude: number;
+    deliveryLocationName: string;
     requestStartDate?: Date;
     requestEndDate?: Date;
     policyNumber: string;
@@ -78,17 +82,41 @@ export class CarRentalRequest extends Model<ICarRentalRequest> {
         type: DataType.STRING,
         allowNull: false,
     })
-    status: RequestStatus = RequestStatus.UNDEFINED;
+    status!: RequestStatus;
 
     @Column({
         type: DataType.DATE,
-        allowNull: false,
+        allowNull: true,
     })
     requestStartDate?: Date;
 
     @Column({
-        type: DataType.DATE,
+        type: DataType.STRING,
         allowNull: false,
+    })
+    deliveryDate!: string;
+
+    @Column({
+        type: DataType.DOUBLE,
+        allowNull: false,
+    })
+    deliveryLocationLongitude!: number;
+
+    @Column({
+        type: DataType.DOUBLE,
+        allowNull: false,
+    })
+    deliveryLocationLatitude!: number;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false,
+    })
+    deliveryLocationName!: string;
+
+    @Column({
+        type: DataType.DATE,
+        allowNull: true,
     })
     requestEndDate?: Date;
 

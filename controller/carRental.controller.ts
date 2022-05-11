@@ -5,11 +5,37 @@ import { CarRentalVendor } from "../models/carRentalVendor.model";
 import { faker } from '@faker-js/faker';
 import { VehicleStatus } from "../enums/vehicleStatus.enum";
 import { RequestStatus } from "../enums/requestStatus";
+import JoiBase, { Root, Schema } from "joi";
+import JoiDate from "@joi/date";
+import { validateSchema } from "../utils/validator";
+import { IMakeRentalRequestDto } from "../dtos/carRental.dto";
+const Joi: Root = JoiBase.extend(JoiDate);
 
 
-
-async function makeRequest(req: Request, res: Response) {
+async function makeRequest(req: Request<{}, {}, IMakeRentalRequestDto>, res: Response) {
     try {
+
+        const schema: Schema = Joi.object({
+            //client info
+            clientName: Joi.string().required().label("Client name"),
+            clientPhoneNumber: Joi.string().required().label("Phone number"),
+            clientEmailAddress: Joi.string().email().required().label("Email address"),
+            clientVehicleRegistrationNumber: Joi.string().required().label("Client vehicle registration number"),
+            deliveryDate: Joi.date()
+                .format(["YYYY-MM-DD HH:mm"])
+                .required()
+                .greater(Date.now())
+                .message(`Request date must be in the future`)
+                .label("Request Date"),
+            deliveryLocationLongitude: Joi.number().required().label("Delivery location longitude"),
+            deliveryLocationLatitude: Joi.number().required().label("Delivery location latitude"),
+            deliveryLocationName: Joi.string().required().label("Delivery location name"),
+
+        });
+        const result = validateSchema(req.body, schema);
+        if (result) {
+            return res.status(200).send({ success: false, message: result });
+        }
 
 
         let nextVendorIndex = 0;
@@ -33,7 +59,7 @@ async function makeRequest(req: Request, res: Response) {
 
         //create car rental request
         const nextVendorObj = getNextVendorObj(nextVendor);
-        const carRentalRequest = await createCarRentalRequest({ ...client, ...nextVendorObj, status: RequestStatus.BOOKED });
+        const carRentalRequest = await createCarRentalRequest({ ...client, ...nextVendorObj, status: RequestStatus.BOOKED, deliveryDate: req.body.deliveryDate, deliveryLocationLatitude: req.body.deliveryLocationLatitude, deliveryLocationLongitude: req.body.deliveryLocationLongitude, deliveryLocationName: req.body.deliveryLocationName });
 
         return res.send({ success: true, message: "Request made successfully", data: carRentalRequest });
     } catch (error) {

@@ -1,13 +1,13 @@
 import AWS from "../config/aws.config";
 import { AttributeListType, ListUsersResponse, UserType } from 'aws-sdk/clients/cognitoidentityserviceprovider';
-const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({ region: process.env.AWS_REGION, apiVersion: '2016-04-18' });
+const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({ apiVersion: '2016-04-18' });
 import util from "util";
 
 export class CognitoService {
     async listUsers() {
         try {
             let identities = await cognitoidentityserviceprovider.listUsers({
-                UserPoolId: process.env.AWS_COGNITO_POOL_ID as string,
+                UserPoolId: <string>process.env.AWS_COGNITO_POOL_ID,
                 // AttributesToGet: ["email", "phone_number", "name"],
                 // Filter: "email_verified=true",
                 // Limit: 60,
@@ -62,8 +62,34 @@ export class CognitoService {
                 };
             });
         } catch (error) {
-            console.log("Error: ", error);
+
+            console.log(`listUsersInGroup*Error: ${process.env.AWS_REGION}`, error);
             return null;
+        }
+    }
+
+    async getUser(username: string) {
+        try {
+            const user = await cognitoidentityserviceprovider.adminGetUser({
+                UserPoolId: process.env.AWS_COGNITO_POOL_ID as string,
+                Username: username,
+            }).promise().then(result => result);
+            console.log("CognitoGetUser->>>", util.inspect(user, { depth: 10 }));
+            // return user;
+            return {
+                username: user.Username,
+                name: this.reduceUserAttributes(user.UserAttributes!, "custom:name"),
+                email: this.reduceUserAttributes(user.UserAttributes!, "email"),
+                phone: this.reduceUserAttributes(user.UserAttributes!, "custom:phone_number"),
+                kraPin: this.reduceUserAttributes(user.UserAttributes!, "custom:kraPin"),
+                physicalAddress: this.reduceUserAttributes(user.UserAttributes!, "custom:physical_address"),
+                bankName: this.reduceUserAttributes(user.UserAttributes!, "custom:bank_name"),
+                bankAccountNumber: this.reduceUserAttributes(user.UserAttributes!, "custom:bank_account"),
+                bankBranch: this.reduceUserAttributes(user.UserAttributes!, "custom:bank_branch"),
+                role: this.reduceUserAttributes(user.UserAttributes!, "custom:role"),
+            };
+        } catch (error) {
+
         }
     }
 
