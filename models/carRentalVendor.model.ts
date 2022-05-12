@@ -1,7 +1,8 @@
-import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
 import { CarRentalVendorVehicle } from "./carRentalVendorVehicle.model";
 
-interface ICarRentalVendor {
+export interface ICarRentalVendor {
+    id: string;
     emailAddress: string;
     name: string;
     phoneNumber: string;
@@ -10,7 +11,7 @@ interface ICarRentalVendor {
     bankName?: string;
     bankAccount?: string;
     bankBranch?: string;
-    vehicles: CarRentalVendorVehicle[];
+    vehicles?: CarRentalVendorVehicle[];
 
 
 }
@@ -22,6 +23,13 @@ interface ICarRentalVendor {
 
 })
 export class CarRentalVendor extends Model<ICarRentalVendor> {
+    @PrimaryKey
+    @Column({
+        type: DataType.STRING,
+        allowNull: false
+    })
+
+    id!: string;
     @Column({
         type: DataType.STRING,
         allowNull: false,

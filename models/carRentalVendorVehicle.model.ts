@@ -19,7 +19,7 @@ export class CarRentalVendorVehicle extends Model<Partial<CarRentalVendorVehicle
         type: DataType.STRING,
         allowNull: false
     })
-    status: VehicleStatus = VehicleStatus.UNDEFINED;
+    status!: VehicleStatus;
 
     @Column({
         type: DataType.STRING,
@@ -44,7 +44,7 @@ export class CarRentalVendorVehicle extends Model<Partial<CarRentalVendorVehicle
         allowNull: false
     })
     @ForeignKey(() => CarRentalVendor)
-    carRentalVendorId!: number;
+    carRentalVendorId!: string;
 
     @BelongsTo(() => CarRentalVendor)
     carRentalVendor?: CarRentalVendor;
