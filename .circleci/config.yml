@@ -1,11 +1,13 @@
 jobs:
   build_deploy:
     machine:
-      image:ubuntu-latest
+      image: ubuntu-latest
     steps:
-      -checkout
-      -run:
-        name: Installing AWS CLI
-        command:
-          sudo apt-get update
-          sudo apt-get install -y awscli
+      - checkout
+      - run:
+          name: "Install AWS CLI"
+          command: |
+            sudo apt-get update
+            sudo apt install python3-pip
+            sudo pip3 install awscli --upgrade
+      - run: cd ../ && npm install &&  npm run start
