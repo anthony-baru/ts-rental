@@ -4,7 +4,6 @@ import connection from "./config/connection";
 const PORT = parseInt(process.env.PORT!) || 3000;
 const start = async (): Promise<void> => {
     try {
-        await connection.sync();
 
         console.log(connection.models);
 

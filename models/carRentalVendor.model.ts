@@ -57,7 +57,7 @@ export class CarRentalVendor extends Model<CarRentalVendor> {
     })
     bankBranch?: string;
 
-    @HasMany(() => CarRentalVendorVehicle)
+    @HasMany(() => CarRentalVendorVehicle, { foreignKey: "carRentalVendorId" })
     carRentalVendorVehicles: CarRentalVendorVehicle[] = [];
 
 }

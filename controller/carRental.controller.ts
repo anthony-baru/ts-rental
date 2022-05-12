@@ -3,6 +3,8 @@ import { CarRentalRequest, ICarRentalRequest } from "../models/carRentalRequest.
 import { CarRentalVendor } from "../models/carRentalVendor.model";
 // const { faker } = require('@faker-js/faker');
 import { faker } from '@faker-js/faker';
+import { VehicleStatus } from "../enums/vehicleStatus.enum";
+import { RequestStatus } from "../enums/requestStatus";
 
 
 
@@ -31,7 +33,7 @@ async function makeRequest(req: Request, res: Response) {
 
         //create car rental request
         const nextVendorObj = getNextVendorObj(nextVendor);
-        const carRentalRequest = await createCarRentalRequest({ ...client, ...nextVendorObj });
+        const carRentalRequest = await createCarRentalRequest({ ...client, ...nextVendorObj, status: RequestStatus.BOOKED });
 
         return res.send({ success: true, message: "Request made successfully", data: carRentalRequest });
     } catch (error) {

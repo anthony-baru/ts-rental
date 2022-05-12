@@ -19,7 +19,7 @@ export class CarRentalVendorVehicle extends Model<Partial<CarRentalVendorVehicle
         type: DataType.STRING,
         allowNull: false
     })
-    status: string = VehicleStatus.Available.toString();
+    status: VehicleStatus = VehicleStatus.UNDEFINED;
 
     @Column({
         type: DataType.STRING,

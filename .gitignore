@@ -25,3 +25,7 @@ pool
 .vscode
 sonarqube-project.properties
 .idea
+<<<<<<< HEAD
+=======
+dist
+>>>>>>> ac7621b (added proper enums for statuses)

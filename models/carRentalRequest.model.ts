@@ -1,4 +1,5 @@
 import { Table, Model, Column, DataType, HasMany, PrimaryKey, } from "sequelize-typescript";
+import { RequestStatus } from "../enums/requestStatus";
 
 export interface ICarRentalRequest {
     clientName: string;
@@ -7,6 +8,7 @@ export interface ICarRentalRequest {
     clientVehicleRegistrationNumber: string;
     clientVehicleMake?: string;
     clientVehicleModel?: string;
+    status: RequestStatus;
     policyNumber: string;
     policyStartDate: Date;
     policyEndDate: Date;
@@ -70,7 +72,11 @@ export class CarRentalRequest extends Model<ICarRentalRequest> {
     })
     clientVehicleModel?: string;
 
-
+    @Column({
+        type: DataType.STRING,
+        allowNull: false,
+    })
+    status: RequestStatus = RequestStatus.UNDEFINED;
 
     @Column({
         type: DataType.STRING,

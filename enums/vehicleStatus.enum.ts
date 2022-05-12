@@ -1,5 +1,6 @@
 export enum VehicleStatus {
-    Available,
-    Unavailable,
+    UNDEFINED = "UNDEFINED",
+    AVAILABLE = "AVAILABLE",
+    UNAVAILABLE = "UNAVAILABLE",
 
 }

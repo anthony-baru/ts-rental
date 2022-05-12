@@ -1,6 +1,6 @@
 // @/connection.ts
 import { Sequelize } from "sequelize-typescript";
-import path = require("path");
+import path from "path";
 import { toCamelCase } from "../utils/toCamelCase";
 import { Dialect } from "sequelize/types";
 
