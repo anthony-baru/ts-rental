@@ -17,3 +17,11 @@ sized/
 thumbs/
 _thumbs/
 */expressionengine/cache/*
+node_modules
+.env
+.scannerwork
+pool
+/coverage
+.vscode
+sonarqube-project.properties
+.idea
