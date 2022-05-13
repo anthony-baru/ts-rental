@@ -14,7 +14,7 @@ jobs:
           command: yarn test
           name: Run tests
       - run:
-          command: yarn start
+          command: yarn build
           name: Build app
       - persist_to_workspace:
           root: ~/project
