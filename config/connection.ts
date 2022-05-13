@@ -19,7 +19,10 @@ let opts = {
         return filename.substring(0, filename.indexOf(".model")) === toCamelCase(member);
     },
     dialectOptions: {
-        ssl: true,
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        },
         useUTC: false,
         dateStrings: true,
         typeCast: function (field: any, next: any) { // for reading from database
