@@ -23,13 +23,14 @@ export interface ICarRentalVendor {
 
 })
 export class CarRentalVendor extends Model<ICarRentalVendor> {
-    @PrimaryKey
+
     @Column({
         type: DataType.STRING,
-        allowNull: false
+        allowNull: false,
+        primaryKey: true,
     })
-
     id!: string;
+
     @Column({
         type: DataType.STRING,
         allowNull: false,
@@ -80,6 +81,6 @@ export class CarRentalVendor extends Model<ICarRentalVendor> {
     bankBranch?: string;
 
     @HasMany(() => CarRentalVendorVehicle, { foreignKey: "carRentalVendorId" })
-    carRentalVendorVehicles: CarRentalVendorVehicle[] = [];
+    carRentalVendorVehicles?: CarRentalVendorVehicle[];
 
 }
