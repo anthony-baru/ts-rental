@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/server.js",
   "scripts": {
+    "build": "tsc",
     "start": "tsc && node --unhandled-rejections=strict ./dist/server.js",
     "dev": "ts-node-dev server.ts",
     "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --runInBand --detectOpenHandles",

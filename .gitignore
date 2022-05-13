@@ -27,3 +27,5 @@ sonarqube-project.properties
 .idea
 dist
 test-report.xml
+
+dist
