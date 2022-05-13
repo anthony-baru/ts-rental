@@ -1,1 +1,1 @@
-web node --unhandled-rejections=strict ./dist/server.js
+web npm install && node --unhandled-rejections=strict ./dist/server.js
