@@ -1,0 +1,26 @@
+module.exports = {
+  preset: "ts-jest",
+  testEnvironment: "node",
+  collectCoverage: true,
+  coverageDirectory: "coverage",
+  collectCoverageFrom: [
+    "controllers/**/*.js",
+    "util/*.js",
+    "routes/**/*.js",
+    "services/**/*.js",
+    "config/*.js",
+    "app.js",
+  ],
+  testResultsProcessor: "jest-sonar-reporter",
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "/tests/",
+    "/models/",
+    "/migrations/",
+    "swagger.js",
+    "jest.config.js",
+    "server.js",
+    "util/testing_tools.js",
+    "services/cognito.js",
+  ],
+};
