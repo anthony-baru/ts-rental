@@ -40,11 +40,11 @@ export class CarRentalVendorVehicle extends Model<Partial<CarRentalVendorVehicle
     yearOfManufucture?: number;
 
     @Column({
-        type: DataType.INTEGER,
+        type: DataType.STRING,
         allowNull: false
     })
     @ForeignKey(() => CarRentalVendor)
-    carRentalVendorId!: string;
+    carRentalVendorId?: string;
 
     @BelongsTo(() => CarRentalVendor)
     carRentalVendor?: CarRentalVendor;
