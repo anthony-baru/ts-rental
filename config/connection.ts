@@ -11,11 +11,11 @@ const connection = new Sequelize({
     dialect: process.env["DB_DIALECT"] as Dialect,
     host: process.env.DB_HOST,
     username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD?.toString(),
+    password: process.env.DB_PASSWORD,
     timezone: '+03:00',
     port: parseInt(process.env.DB_PORT!) || 3306,
 
-    database: "typescript-sequelize",
+    database: process.env.DB_DATABASE,
 
     models: [path.join(__dirname, "..", "models")],
     modelMatch: (filename, member) => {
@@ -23,10 +23,6 @@ const connection = new Sequelize({
         return filename.substring(0, filename.indexOf('.model')) === toCamelCase(member);
     },
     dialectOptions: {
-        ssl: {
-            require: true,
-            rejectUnauthorized: false
-        },
 
         options: {
             useUTC: false,
