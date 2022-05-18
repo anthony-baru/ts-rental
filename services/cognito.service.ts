@@ -8,6 +8,7 @@ export class CognitoService {
         try {
             let identities = await cognitoidentityserviceprovider.listUsers({
                 UserPoolId: <string>process.env.AWS_COGNITO_POOL_ID,
+
                 // AttributesToGet: ["email", "phone_number", "name"],
                 // Filter: "email_verified=true",
                 // Limit: 60,
@@ -31,6 +32,54 @@ export class CognitoService {
             console.log("Error: ", error);
             return null;
         }
+
+    }
+
+    async listAllUsers() {
+
+        let paginationToken = undefined;
+        let usersRequest: any;
+        let currentUserCount: number;
+        let users: {
+            username: string | undefined;
+            name: string;
+            email: string;
+            phone: string;
+            role: string;
+        }[] = [];
+
+        do {
+            // usersRequest = await new CognitoService().listAllUsers(paginationToken);
+            usersRequest = await cognitoidentityserviceprovider.listUsers({
+                UserPoolId: <string>process.env.AWS_COGNITO_POOL_ID,
+                PaginationToken: paginationToken,
+                // AttributesToGet: ["email", "phone_number", "name"],
+                // Filter: "email_verified=true",
+                Limit: 60,
+            })
+                .promise()
+                .then((result: ListUsersResponse) => {
+                    return {
+                        paginationToken: result.PaginationToken,
+                        users: result.Users!.map((user: UserType) => {
+                            return {
+                                username: user.Username,
+                                name: this.reduceUserAttributes(user.Attributes!, "custom:name"),
+                                email: this.reduceUserAttributes(user.Attributes!, "email"),
+                                phone: this.reduceUserAttributes(user.Attributes!, "custom:extension"),
+                                role: this.reduceUserAttributes(user.Attributes!, "custom:role"),
+                            };
+                        })
+                    };
+                });
+            console.log(`usersRequestPaginationToken`, usersRequest.paginationToken);
+            paginationToken = usersRequest.paginationToken;
+            users.push(...usersRequest.users);
+            currentUserCount = users.length;
+            console.log(`users.length`, users.length, `currentUserCount`, currentUserCount);
+        } while (paginationToken != undefined);
+        return users;
+
 
     }
 
@@ -104,6 +153,26 @@ export class CognitoService {
             return acc;
 
         }, "");
+    }
+
+    async updateUserRegion(username: string, region: string) {
+        try {
+            const updatedUser = await cognitoidentityserviceprovider.adminUpdateUserAttributes({
+                UserPoolId: process.env.AWS_COGNITO_POOL_ID as string,
+                Username: username,
+                UserAttributes: [
+                    {
+                        Name: "custom:region",
+                        Value: region,
+                    }
+                ]
+            }).promise().then(result => result);
+
+            // console.log("CognitoUpdateUser->>>", util.inspect(updatedUser.$response, { depth: 10 }));
+            return updatedUser.$response;
+        } catch (e) {
+            console.log(`updateUserRegion*Error: ${process.env.AWS_REGION}`, e);
+        }
     }
 
 

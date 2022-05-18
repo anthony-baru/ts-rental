@@ -6,6 +6,7 @@ import { CarRentalVendor } from "./carRentalVendor.model";
 @Table({
     tableName: "carRentalVendorVehicles",
     timestamps: true,
+    paranoid: true,
 })
 
 export class CarRentalVendorVehicle extends Model<Partial<CarRentalVendorVehicle>> {
