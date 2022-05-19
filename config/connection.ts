@@ -10,7 +10,15 @@ require('dotenv').config();
 let connection: Sequelize;
 
 let postgresUrl = `postgres://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`;
+let ssl = null;
 
+console.log("hi", process.env.DB_SSL_LOCAL, typeof process.env.DB_SSL_LOCAL);
+if (process.env.DB_USE_SSL_LOCAL === undefined) {
+    ssl = {
+        require: true,
+        rejectUnauthorized: false
+    };
+}
 let opts = {
     timezone: '+03:00',
     models: [path.join(__dirname, "..", "models")],
@@ -19,10 +27,7 @@ let opts = {
         return filename.substring(0, filename.indexOf(".model")) === toCamelCase(member);
     },
     dialectOptions: {
-        ssl: {
-            require: true,
-            rejectUnauthorized: false
-        },
+        ssl,
         useUTC: false,
         dateStrings: true,
         typeCast: function (field: any, next: any) { // for reading from database
