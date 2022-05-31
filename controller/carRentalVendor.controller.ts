@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Joi from "joi";
 import { GetVendorParamsDto, UpdateVendorVehicleBodyDto, UpdateVendorVehicleParamsDto } from "../dtos/carRentalVendor.dto";
 import { VehicleStatus } from "../enums/vehicleStatus.enum";
-import { CarRentalVendor, ICarRentalVendor } from "../models/carRentalVendor.model";
+import { CarRentalVendor } from "../models/carRentalVendor.model";
 import { CarRentalVendorVehicle } from "../models/carRentalVendorVehicle.model";
 import { CognitoService } from "../services/cognito.service";
 import { validateSchema } from "../utils/validator";

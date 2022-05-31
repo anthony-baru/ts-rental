@@ -104,7 +104,7 @@ function getNextVendorObj(nextVendor: CarRentalVendor) {
         assignedVendorName: nextVendor.name,
         assignedVendorPhoneNumber: nextVendor.phoneNumber,
         assignedVendorKraPin: nextVendor.kraPin,
-        assignedVendorPhysicalAddress: "nextVendor.physicalAddress",
+        assignedVendorPhysicalAddress: nextVendor.physicalAddress,
         assignedVendorBankName: nextVendor.bankName,
         assignedVendorBankAccountNumber: nextVendor.bankAccountNumber,
         assignedVendorBankAccountName: nextVendor.bankName,
