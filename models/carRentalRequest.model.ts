@@ -25,7 +25,7 @@ export interface ICarRentalRequest {
     assignedVendorName: string;
     assignedVendorPhoneNumber: string;
     assignedVendorKRAPin?: string;
-    assignedVendorPhysicalAddress: string | null;
+    assignedVendorPhysicalAddress?: string;
     assignedVendorBankName?: string;
     assignedVendorBankAccount?: string;
     assignedVendorBankBranch?: string;
