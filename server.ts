@@ -6,7 +6,7 @@ const start = async (): Promise<void> => {
     try {
 
         await connection.authenticate();
-        await connection.sync({ alter: true });
+        // await connection.sync({ alter: true });
         app.listen(PORT, () => {
             // init();
             console.log(`Server started on port ${PORT}`);

@@ -64,10 +64,16 @@ export class CognitoService {
                         users: result.Users!.map((user: UserType) => {
                             return {
                                 username: user.Username,
-                                name: this.reduceUserAttributes(user.Attributes!, "custom:name"),
+                                name: this.reduceUserAttributes(user.Attributes!, "name"),
                                 email: this.reduceUserAttributes(user.Attributes!, "email"),
-                                phone: this.reduceUserAttributes(user.Attributes!, "custom:extension"),
-                                role: this.reduceUserAttributes(user.Attributes!, "custom:role"),
+                                phone: this.reduceUserAttributes(user.Attributes!, "phone_number"),
+                                // role: this.reduceUserAttributes(user.Attributes!, "custom:role"),
+                                kraPin: this.reduceUserAttributes(user.Attributes!, "custom:kra-pin"),
+                                createdAt:user.UserCreateDate,
+                                lastModified:user.UserLastModifiedDate,
+                                enabled:user.Enabled,
+                                usersStatus:user.UserStatus
+
                             };
                         })
                     };
@@ -173,6 +179,20 @@ export class CognitoService {
         } catch (e) {
             console.log(`updateUserRegion*Error: ${process.env.AWS_REGION}`, e);
         }
+    }
+
+    async confirmUser(username: string) {
+
+        const confirmedUser = await cognitoidentityserviceprovider.adminConfirmSignUp({
+            UserPoolId: process.env.AWS_COGNITO_POOL_ID as string,
+            Username: username,
+        }
+
+        ).promise().then(result => result);
+        console.log("CognitoConfirmUser->>>", util.inspect(confirmedUser.$response, { depth: 10 }));
+        return confirmedUser.$response;
+
+
     }
 
 

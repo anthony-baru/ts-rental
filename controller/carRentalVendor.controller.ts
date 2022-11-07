@@ -142,6 +142,18 @@ async function updateUserRegion(req: Request, res: Response) {
 
 }
 
+
+async function confirmUser(req: Request, res: Response) {
+    try {
+        const confirmUserResponse = await new CognitoService().confirmUser(req.body.username);
+        return res.send({ success: true, message: "User confirmed successfully.", data: confirmUserResponse });
+    } catch (error) {
+        console.log(`ErrorOccurred*confirmUser`, error);
+        return res.send({ success: false, message: "Error occurred." });
+    }
+
+}
+
 export default {
-    getVendors, getVendor, createVehicle, getVehicle, getAllVehicles, updateVehicle, deleteVehicle, updateUserRegion
+    getVendors, getVendor, createVehicle, getVehicle, getAllVehicles, updateVehicle, deleteVehicle, updateUserRegion, confirmUser
 };

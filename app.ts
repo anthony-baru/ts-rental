@@ -28,11 +28,22 @@ app.get("/users/:userName", async (req: Request, res: Response) => {
 
 app.get("/users", async (req: Request, res: Response): Promise<Response> => {
 
-    return res.send({ data: await new CognitoService().listUsers() });
+    return res.send({ data: await new CognitoService().listAllUsers() });
 });
 app.get("/users-group/:groupName", async (req: Request, res: Response): Promise<Response> => {
 
     return res.send({ data: await new CognitoService().listUsersInGroup(req.params.groupName) });
+});
+
+app.post("/users/confirm", async (req: Request, res: Response) => {
+    try {
+        const confirmUserResponse = await new CognitoService().confirmUser(req.body.username);
+        return res.send({ success: true, message: "User confirmed successfully.", data: confirmUserResponse });
+    } catch (e) {
+        console.log(`ErrorOccurred*confirmUser`, e);
+        return res.send({ success: false, message: `Error occurred: ${e}` });
+    }
+
 });
 
 
